@@ -1,0 +1,53 @@
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+dist/
+build/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/dev-dist/
+*.local
+.npm
+.pnpm-store/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Data & uploads
+uploads/
+data/faiss_index/
+*.log
+logs/
+
+# Docker volumes
+postgres_data/
+redis_data/
+
+# OS
+Desktop.ini
+$RECYCLE.BIN/

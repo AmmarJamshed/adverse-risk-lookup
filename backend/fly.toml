@@ -1,0 +1,37 @@
+# fly.toml — Adverse Risk Lookup API (public Docker on Fly.io)
+app = "arl-adverse-risk-lookup"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile.cloud"
+
+[env]
+  APP_ENV = "production"
+  APP_DEBUG = "false"
+  USE_FAISS_FALLBACK = "true"
+  PORT = "8000"
+  CORS_ORIGINS = "https://arl-adverse-risk-lookup.netlify.app,https://arl-adverse-risk-lookup.fly.dev"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "10s"
+    grace_period = "60s"
+    method = "GET"
+    path = "/api/health"
+
+[[vm]]
+  memory = "1gb"
+  cpu_kind = "shared"
+  cpus = 1
+
+[mounts]
+  source = "arl_data"
+  destination = "/data"

@@ -1,0 +1,58 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+# Skip heavy local embedding download in cloud image; hash fallback works for boot
+# sentence-transformers still listed but we optionally exclude torch-heavy path for slim deploy
+RUN pip install --no-cache-dir \
+    fastapi==0.115.6 \
+    "uvicorn[standard]==0.34.0" \
+    sqlalchemy==2.0.36 \
+    psycopg2-binary==2.9.10 \
+    alembic==1.14.0 \
+    pydantic==2.10.3 \
+    pydantic-settings==2.6.1 \
+    "python-jose[cryptography]==3.3.0" \
+    bcrypt==4.2.1 \
+    python-multipart==0.0.20 \
+    email-validator==2.2.0 \
+    httpx==0.28.1 \
+    feedparser==6.0.11 \
+    groq==0.13.0 \
+    numpy==2.2.0 \
+    pandas==2.2.3 \
+    openpyxl==3.1.5 \
+    reportlab==4.2.5 \
+    python-docx==1.1.2 \
+    xlsxwriter==3.2.0 \
+    langdetect==1.0.9 \
+    tenacity==9.0.0 \
+    slowapi==0.1.9 \
+    structlog==24.4.0 \
+    python-dateutil==2.9.0.post0 \
+    aiofiles==24.1.0 \
+    beautifulsoup4==4.12.3 \
+    lxml==5.3.0
+
+COPY . .
+
+RUN mkdir -p /app/uploads /app/logs /app/data/faiss_index
+
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+ENV USE_FAISS_FALLBACK=true
+ENV PORT=8000
+
+EXPOSE 8000
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+CMD ["/docker-entrypoint.sh"]

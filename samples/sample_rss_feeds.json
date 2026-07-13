@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Federal Reserve Press",
+    "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+    "category": "central_bank",
+    "country": "United States",
+    "language": "en"
+  },
+  {
+    "name": "SEC Press Releases",
+    "url": "https://www.sec.gov/news/pressreleases.rss",
+    "category": "regulator",
+    "country": "United States",
+    "language": "en"
+  },
+  {
+    "name": "CISA Cybersecurity Advisories",
+    "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",
+    "category": "cyber",
+    "country": "United States",
+    "language": "en"
+  },
+  {
+    "name": "BIS Speeches",
+    "url": "https://www.bis.org/doclist/cbspeeches.rss",
+    "category": "regulator",
+    "country": "International",
+    "language": "en"
+  },
+  {
+    "name": "ECB Press",
+    "url": "https://www.ecb.europa.eu/rss/press.html",
+    "category": "central_bank",
+    "country": "European Union",
+    "language": "en"
+  }
+]
