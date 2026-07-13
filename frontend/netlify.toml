@@ -1,14 +1,25 @@
 [build]
   command = "npm run build"
   publish = "dist"
-  base = "/"
 
 [build.environment]
   NODE_VERSION = "20"
+  VITE_API_URL = "/api"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Free serverless API — path forwarded as query for reliable routing
+[[redirects]]
+  from = "/api/health"
+  to = "/.netlify/functions/arl?path=/health"
+  status = 200
+  force = true
 
 [[redirects]]
-  from = "/api/*"
-  to = "https://1de0-2407-aa80-15-f662-e46e-37f6-131d-eb1f.ngrok-free.app/api/:splat"
+  from = "/api/v1/*"
+  to = "/.netlify/functions/arl?path=/:splat"
   status = 200
   force = true
 
