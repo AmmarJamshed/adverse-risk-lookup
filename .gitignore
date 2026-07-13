@@ -43,6 +43,9 @@ uploads/
 data/faiss_index/
 *.log
 logs/
+*.db
+backend/arl_demo.db
+frontend/.netlify/
 
 # Docker volumes
 postgres_data/
