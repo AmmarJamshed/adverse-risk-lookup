@@ -1,0 +1,28 @@
+# Cloud deploy (Fly.io — remote Docker build, no local Docker Desktop)
+
+services:
+  - type: web
+    name: arl-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile.cloud
+    dockerContext: ./backend
+    plan: free
+    region: oregon
+    healthCheckPath: /api/health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: USE_FAISS_FALLBACK
+        value: "true"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite:////tmp/arl.db
+      - key: CORS_ORIGINS
+        value: https://arl-adverse-risk-lookup.netlify.app
+      - key: GROQ_API_KEY
+        sync: false
+      - key: NEWS_API_KEY
+        sync: false
