@@ -3,17 +3,16 @@ import { AppShell } from "./components/layout/AppShell";
 import { useAuthStore } from "./stores/auth";
 import { useThemeStore } from "./stores/theme";
 import LoginPage from "./pages/LoginPage";
-import DashboardPage from "./pages/DashboardPage";
-import ArticlesPage from "./pages/ArticlesPage";
-import ArticleDetailPage from "./pages/ArticleDetailPage";
-import RisksPage from "./pages/RisksPage";
-import FeedsPage from "./pages/FeedsPage";
-import AlertsPage from "./pages/AlertsPage";
-import ReportsPage from "./pages/ReportsPage";
-import AssistantPage from "./pages/AssistantPage";
-import EmergingPage from "./pages/EmergingPage";
+import HorizonScanPage from "./pages/HorizonScanPage";
+import HorizonDetailPage from "./pages/HorizonDetailPage";
+import ApplicabilityPage from "./pages/ApplicabilityPage";
+import ObligationsPage from "./pages/ObligationsPage";
+import CasesPage from "./pages/CasesPage";
+import CaseDetailPage from "./pages/CaseDetailPage";
+import LibraryPage from "./pages/LibraryPage";
+import SourcesPage from "./pages/SourcesPage";
+import TrainingsPage from "./pages/TrainingsPage";
 import AdminPage from "./pages/AdminPage";
-import SearchPage from "./pages/SearchPage";
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const token = useAuthStore((s) => s.token);
@@ -37,16 +36,15 @@ export default function App() {
           <PrivateRoute>
             <AppShell>
               <Routes>
-                <Route path="/" element={<DashboardPage />} />
-                <Route path="/articles" element={<ArticlesPage />} />
-                <Route path="/articles/:id" element={<ArticleDetailPage />} />
-                <Route path="/risks" element={<RisksPage />} />
-                <Route path="/feeds" element={<FeedsPage />} />
-                <Route path="/alerts" element={<AlertsPage />} />
-                <Route path="/reports" element={<ReportsPage />} />
-                <Route path="/assistant" element={<AssistantPage />} />
-                <Route path="/emerging" element={<EmergingPage />} />
-                <Route path="/search" element={<SearchPage />} />
+                <Route path="/" element={<HorizonScanPage />} />
+                <Route path="/horizon/:id" element={<HorizonDetailPage />} />
+                <Route path="/applicability" element={<ApplicabilityPage />} />
+                <Route path="/obligations" element={<ObligationsPage />} />
+                <Route path="/cases" element={<CasesPage />} />
+                <Route path="/cases/:id" element={<CaseDetailPage />} />
+                <Route path="/library" element={<LibraryPage />} />
+                <Route path="/sources" element={<SourcesPage />} />
+                <Route path="/trainings" element={<TrainingsPage />} />
                 <Route path="/admin" element={<AdminPage />} />
               </Routes>
             </AppShell>

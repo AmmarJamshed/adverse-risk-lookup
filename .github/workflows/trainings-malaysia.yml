@@ -1,0 +1,14 @@
+name: "Trainings: Malaysia"
+
+on:
+  schedule:
+    # Monday 09:20 UTC
+    - cron: "20 9 * * 1"
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    uses: ./.github/workflows/trainings-scrape-reusable.yml
+    with:
+      country: Malaysia
+    secrets: inherit

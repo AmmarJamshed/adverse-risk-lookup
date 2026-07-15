@@ -22,6 +22,7 @@ from app.api.v1 import (
 )
 from app.api.v1.articles import router as articles_router
 from app.api.v1.auth import router as auth_router
+from app.api.v1.obligations import router as obligations_router
 from app.api.v1.risks import router as risks_router
 from app.core.config import get_settings
 from app.core.database import Base, engine, init_vector_extension
@@ -45,7 +46,7 @@ async def lifespan(_: FastAPI):
 
 app = FastAPI(
     title="Adverse Risk Lookup (ARL)",
-    description="AI-Powered Banking Adverse Media & Risk Intelligence Platform",
+    description="Regulatory horizon scanning, obligations register, and gap analysis",
     version=__version__,
     lifespan=lifespan,
     docs_url="/api/docs",
@@ -68,6 +69,7 @@ app.add_middleware(RequestLoggingMiddleware)
 api = FastAPI()
 # Mount under /api for Netlify proxy friendliness
 app.include_router(auth_router, prefix="/api/v1")
+app.include_router(obligations_router, prefix="/api/v1")
 app.include_router(articles_router, prefix="/api/v1")
 app.include_router(risks_router, prefix="/api/v1")
 app.include_router(feeds_router, prefix="/api/v1")

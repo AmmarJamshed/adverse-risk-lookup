@@ -1,26 +1,30 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --arl-bg: #0b1f33;
-  --arl-panel: #122b45;
-  --arl-accent: #1f9d8a;
-  --arl-text: #f3f6f9;
+  color-scheme: light;
+  --sw-navy: #0c2340;
+  --sw-brand: #0a6e8a;
+  --sw-desk: #f4f6f9;
+  --sw-line: #d5dee8;
+  --sw-text: #17212c;
 }
 
-html.light {
-  --arl-bg: #f3f6f9;
-  --arl-panel: #ffffff;
-  --arl-text: #0b1f33;
+html.dark {
+  color-scheme: dark;
+  --sw-desk: #0c2340;
+  --sw-line: #1c4d75;
+  --sw-text: #e8edf3;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-family: "Source Sans 3", "Segoe UI", sans-serif;
+  background: var(--sw-desk);
+  color: var(--sw-text);
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
@@ -29,61 +33,67 @@ body {
 
 @layer components {
   .arl-panel {
-    @apply rounded-xl border border-white/10 bg-ink-800/80 shadow-panel backdrop-blur;
+    @apply rounded-panel border border-steel-200 bg-white shadow-desk;
   }
-  .light .arl-panel {
-    @apply border-ink-900/10 bg-white;
+  .dark .arl-panel {
+    @apply border-navy-700 bg-navy-900 shadow-none;
   }
+
   .arl-input {
-    @apply w-full rounded-lg border border-white/10 bg-ink-900/60 px-3 py-2 text-sm text-paper outline-none ring-signal/40 placeholder:text-paper/40 focus:ring-2;
+    @apply w-full rounded-panel border border-steel-200 bg-white px-3 py-2 text-sm text-steel-900 outline-none transition placeholder:text-steel-400 focus:border-brand focus:ring-1 focus:ring-brand/30;
   }
-  .light .arl-input {
-    @apply border-ink-900/15 bg-paper text-ink-900;
+  .dark .arl-input {
+    @apply border-navy-700 bg-navy-950 text-steel-100 placeholder:text-steel-400;
   }
+
   .arl-btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-signal px-4 py-2 text-sm font-semibold text-ink-950 transition hover:bg-signal-soft disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-panel bg-navy-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-navy-800 disabled:opacity-50;
+  }
+  .arl-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-panel bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-mid disabled:opacity-50;
   }
   .arl-btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-white/15 bg-transparent px-3 py-2 text-sm text-paper/90 transition hover:bg-white/5;
+    @apply inline-flex items-center justify-center gap-2 rounded-panel border border-steel-200 bg-white px-3 py-2 text-sm font-medium text-steel-700 transition hover:bg-steel-50;
   }
-  .light .arl-btn-ghost {
-    @apply border-ink-900/15 text-ink-800 hover:bg-ink-900/5;
+  .dark .arl-btn-ghost {
+    @apply border-navy-700 bg-transparent text-steel-200 hover:bg-navy-800;
   }
-}
 
-/* Subtle scanline grid for terminal-like GRC feel */
-.arl-grid-bg {
-  background-image:
-    linear-gradient(rgba(31, 157, 138, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(31, 157, 138, 0.05) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
-@keyframes arl-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
+  .arl-kpi {
+    @apply relative overflow-hidden rounded-panel border border-steel-200 bg-white p-4 shadow-desk;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .arl-kpi::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--sw-brand);
   }
-}
-
-@keyframes arl-pulse-soft {
-  0%,
-  100% {
-    opacity: 0.55;
+  .dark .arl-kpi {
+    @apply border-navy-700 bg-navy-900 shadow-none;
   }
-  50% {
-    opacity: 1;
+
+  .arl-badge {
+    @apply inline-flex items-center rounded-sm px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide;
   }
-}
 
-.animate-fade-up {
-  animation: arl-fade-up 0.45s ease-out both;
-}
+  .arl-table-wrap {
+    @apply overflow-hidden rounded-panel border border-steel-200 bg-white;
+  }
+  .dark .arl-table-wrap {
+    @apply border-navy-700 bg-navy-900;
+  }
 
-.animate-pulse-soft {
-  animation: arl-pulse-soft 2.4s ease-in-out infinite;
+  .arl-page-title {
+    @apply text-2xl font-semibold tracking-tight text-navy-900 dark:text-white;
+  }
+  .arl-page-sub {
+    @apply mt-1 text-sm text-steel-500 dark:text-steel-400;
+  }
+
+  .arl-section-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.12em] text-steel-500;
+  }
 }

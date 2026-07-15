@@ -1,0 +1,14 @@
+name: "Trainings: Canada"
+
+on:
+  schedule:
+    # Monday 08:40 UTC
+    - cron: "40 8 * * 1"
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    uses: ./.github/workflows/trainings-scrape-reusable.yml
+    with:
+      country: Canada
+    secrets: inherit

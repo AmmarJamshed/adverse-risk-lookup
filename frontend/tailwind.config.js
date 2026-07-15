@@ -5,37 +5,48 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: {
-          950: "#06101c",
-          900: "#0b1f33",
-          800: "#122b45",
-          700: "#1a3a5c",
-          600: "#24507a",
+        navy: {
+          950: "#071525",
+          900: "#0c2340",
+          800: "#143a5c",
+          700: "#1c4d75",
+          600: "#256090",
         },
-        signal: {
-          DEFAULT: "#1f9d8a",
-          soft: "#2bbfA8",
-          warn: "#c9852c",
-          danger: "#c44b4b",
-          info: "#3a7ca5",
+        steel: {
+          50: "#f4f6f9",
+          100: "#e8edf3",
+          200: "#d5dee8",
+          300: "#b7c5d4",
+          400: "#8aa0b5",
+          500: "#5f7690",
+          600: "#455a70",
+          700: "#344556",
+          800: "#243040",
+          900: "#17212c",
         },
-        paper: {
-          DEFAULT: "#f3f6f9",
-          card: "#ffffff",
-          muted: "#dbe4ee",
+        brand: {
+          DEFAULT: "#0a6e8a",
+          mid: "#0d87a8",
+          soft: "#e6f3f7",
+        },
+        hit: {
+          critical: "#b42318",
+          high: "#c2410c",
+          medium: "#a16207",
+          low: "#0f766e",
+          clear: "#0a6e8a",
         },
       },
       fontFamily: {
-        display: ['"Source Serif 4"', "Georgia", "serif"],
-        sans: ['"IBM Plex Sans"', "Segoe UI", "sans-serif"],
+        sans: ['"Source Sans 3"', "Segoe UI", "sans-serif"],
+        display: ['"Source Sans 3"', "Segoe UI", "sans-serif"],
         mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"],
       },
       boxShadow: {
-        panel: "0 1px 0 rgba(15,39,68,0.06), 0 12px 32px rgba(6,16,28,0.08)",
+        desk: "0 1px 2px rgba(12, 35, 64, 0.06)",
       },
-      backgroundImage: {
-        mesh: "radial-gradient(ellipse at 20% 0%, rgba(31,157,138,0.18), transparent 50%), radial-gradient(ellipse at 90% 10%, rgba(58,124,165,0.16), transparent 45%), linear-gradient(180deg, #0b1f33 0%, #122b45 40%, #0b1f33 100%)",
-        "mesh-light": "radial-gradient(ellipse at 10% 0%, rgba(31,157,138,0.08), transparent 40%), linear-gradient(180deg, #eef3f8 0%, #f3f6f9 100%)",
+      borderRadius: {
+        panel: "4px",
       },
     },
   },

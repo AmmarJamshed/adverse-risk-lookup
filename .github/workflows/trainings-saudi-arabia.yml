@@ -1,0 +1,14 @@
+name: "Trainings: Saudi Arabia"
+
+on:
+  schedule:
+    # Monday 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    uses: ./.github/workflows/trainings-scrape-reusable.yml
+    with:
+      country: Saudi Arabia
+    secrets: inherit

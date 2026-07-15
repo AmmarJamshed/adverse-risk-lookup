@@ -9,9 +9,9 @@ type ThemeState = {
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set, get) => ({
-      theme: "dark",
+      theme: "light",
       toggle: () => set({ theme: get().theme === "dark" ? "light" : "dark" }),
     }),
-    { name: "arl-theme" }
+    { name: "arl-theme-v2" }
   )
 );
