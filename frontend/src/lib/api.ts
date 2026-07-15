@@ -13,6 +13,7 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  // Bypass ngrok free-tier browser warning interstitial for XHR
   config.headers["ngrok-skip-browser-warning"] = "true";
   return config;
 });
@@ -32,144 +33,45 @@ api.interceptors.response.use(
 
 export type DashboardStats = {
   totals: {
-    horizon_items: number;
-    pending_assessment: number;
-    obligations: number;
-    open_cases: number;
-    gap_or_partial: number;
-    under_review_candidates: number;
+    articles: number;
+    relevant: number;
+    critical_alerts: number;
+    emerging_risks: number;
   };
-  jurisdictions: { name: string; count: number }[];
-  gap_status: { name: string; count: number }[];
-  case_status: { name: string; count: number }[];
+  countries: { name: string; count: number }[];
+  severity: { name: string; count: number }[];
+  categories: { name: string; count: number }[];
+  languages: { name: string; count: number }[];
+  sources: { name: string; count: number }[];
+  todays_news_count: number;
 };
 
-export type ObligationCandidate = {
-  id: string;
-  text: string;
-  theme?: string;
-  applicability: "applicable" | "not_applicable" | "under_review" | string;
-  rationale?: string;
-  suggested_owner?: string;
-  assessed_by?: string;
-  assessed_at?: string;
-};
-
-export type HorizonItem = {
+export type Article = {
   id: string;
   title: string;
-  jurisdiction: string;
-  regulator: string;
-  instrument_type?: string;
-  reference?: string;
-  published_at?: string;
-  summary?: string;
-  body?: string;
-  source_id?: string;
-  source_name?: string;
-  status: string;
-  priority?: string;
-  tags?: string[];
-  candidates: ObligationCandidate[];
-  created_at?: string;
-};
-
-export type Obligation = {
-  id: string;
-  code: string;
-  statement: string;
-  jurisdiction: string;
-  regulator: string;
-  theme?: string;
-  owner: string;
-  status: string;
-  source_horizon_id?: string;
-  source_candidate_id?: string;
-  source_reference?: string;
-  due_date?: string;
-  created_at?: string;
-};
-
-export type Policy = {
-  id: string;
-  code: string;
-  title: string;
-  owner: string;
-  jurisdiction: string;
-  status: string;
-  summary?: string;
-};
-
-export type Control = {
-  id: string;
-  code: string;
-  title: string;
-  policy_id?: string | null;
-  owner: string;
-  type: string;
-  status: string;
-};
-
-export type CaseMapping = {
-  id: string;
-  kind: "policy" | "control" | string;
-  ref_id: string;
-  ref_code: string;
-  ref_title: string;
-  coverage: string;
-  notes?: string;
-};
-
-export type GapCase = {
-  id: string;
-  case_number: string;
-  obligation_id: string;
-  title: string;
-  status: string;
-  gap_status: string;
-  owner: string;
-  jurisdiction: string;
-  remediation_notes?: string;
-  mappings: CaseMapping[];
-  created_at?: string;
-  obligation?: Obligation | null;
-};
-
-export type ApplicabilityInboxItem = {
-  horizon_id: string;
-  horizon_title: string;
-  jurisdiction: string;
-  regulator: string;
-  reference?: string;
-  priority?: string;
-  candidate: ObligationCandidate;
-};
-
-export type RegulatorySource = {
-  id: string;
-  name: string;
-  regulator: string;
-  jurisdiction: string;
+  title_en?: string;
   url: string;
-  category: string;
-  is_active: boolean;
-  last_status?: string;
-  success_count: number;
-  failure_count: number;
-};
-
-export type Training = {
-  id: string;
-  title: string;
-  description?: string;
-  country: string;
-  city?: string;
-  location_name?: string;
-  organizer?: string;
-  start_date?: string | null;
-  end_date?: string | null;
-  price?: string;
-  register_url: string;
-  source?: string;
-  scraped_at?: string;
+  source_name?: string;
+  language: string;
+  country?: string;
+  summary_executive?: string;
+  summary_detailed?: string;
+  content_original?: string;
+  content_en?: string;
+  severity?: string;
+  severity_score: number;
+  confidence: number;
+  is_emerging: boolean;
+  requires_escalation: boolean;
+  risk_category?: string;
+  banks: string[];
+  regulators: string[];
+  departments: string[];
+  tags: string[];
+  recommended_actions: Record<string, string[]>;
+  processing_status: string;
+  published_at?: string;
+  created_at?: string;
+  risk_matches?: Array<Record<string, unknown>>;
+  ai_analysis?: Record<string, unknown>;
 };

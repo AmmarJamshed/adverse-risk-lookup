@@ -51,17 +51,6 @@ frontend/.netlify/
 postgres_data/
 redis_data/
 
-# Local toolchains / demo render intermediates
-tools/ffmpeg/
-samples/video-demo/recording/
-samples/video-demo/recording_raw.mp4
-samples/video-demo/chapters/
-samples/video-demo/audio_live/
-samples/video-demo/audio/
-data/trainings/_bing_urls.json
-data/trainings/_search_harvest.json
-frontend/tsconfig.tsbuildinfo
-
 # OS
 Desktop.ini
 $RECYCLE.BIN/

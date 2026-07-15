@@ -125,40 +125,6 @@ def dashboard_stats(
     db: Session = Depends(get_db),
     _: User = Depends(get_current_user),
 ):
-    from app.models import GapCase, HorizonItem, Obligation
-
-    items = db.query(HorizonItem).all()
-    if items:
-        by_j: dict[str, int] = {}
-        pending = 0
-        under_review = 0
-        for h in items:
-            by_j[h.jurisdiction] = by_j.get(h.jurisdiction, 0) + 1
-            if h.status == "pending_assessment":
-                pending += 1
-            for c in h.candidates or []:
-                if c.get("applicability") == "under_review":
-                    under_review += 1
-        cases = db.query(GapCase).all()
-        return {
-            "totals": {
-                "horizon_items": len(items),
-                "pending_assessment": pending,
-                "obligations": db.query(Obligation).count(),
-                "open_cases": sum(1 for c in cases if c.status != "closed"),
-                "gap_or_partial": sum(1 for c in cases if c.gap_status in ("gap", "partial")),
-                "under_review_candidates": under_review,
-            },
-            "jurisdictions": [{"name": k, "count": v} for k, v in by_j.items()],
-            "gap_status": [
-                {"name": n, "count": sum(1 for c in cases if c.gap_status == n)}
-                for n in ("mapped", "partial", "gap")
-            ],
-            "case_status": [
-                {"name": n, "count": sum(1 for c in cases if c.status == n)}
-                for n in ("open", "in_progress", "closed")
-            ],
-        }
     return build_dashboard_stats(db)
 
 
