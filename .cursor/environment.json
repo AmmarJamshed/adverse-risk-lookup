@@ -1,0 +1,24 @@
+{
+  "name": "Adverse Risk Lookup (ARL)",
+  "install": "bash .cursor/install.sh",
+  "start": "bash .cursor/start.sh",
+  "terminals": [
+    {
+      "name": "api",
+      "command": "source backend/.venv/bin/activate && export DATABASE_URL='postgresql+psycopg2://arl:arl_secure_password@localhost:5432/arl' REDIS_URL='redis://localhost:6379/0' PYTHONPATH=\"$PWD/backend\" && cd backend && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    },
+    {
+      "name": "worker",
+      "command": "source backend/.venv/bin/activate && export DATABASE_URL='postgresql+psycopg2://arl:arl_secure_password@localhost:5432/arl' REDIS_URL='redis://localhost:6379/0' PYTHONPATH=\"$PWD/backend\" && cd backend && celery -A app.workers.celery_app worker --loglevel=info --concurrency=2"
+    },
+    {
+      "name": "beat",
+      "command": "source backend/.venv/bin/activate && export DATABASE_URL='postgresql+psycopg2://arl:arl_secure_password@localhost:5432/arl' REDIS_URL='redis://localhost:6379/0' PYTHONPATH=\"$PWD/backend\" && cd backend && celery -A app.workers.celery_app beat --loglevel=info"
+    },
+    {
+      "name": "frontend",
+      "command": "cd frontend && npm run dev -- --host 0.0.0.0 --port 5173"
+    }
+  ],
+  "ports": [8000, 5173, 5432, 6379]
+}
