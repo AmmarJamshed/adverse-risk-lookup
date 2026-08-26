@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import Any, Optional
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class TokenResponse(BaseModel):
@@ -84,6 +84,37 @@ class ArticleDetail(ArticleOut):
     committee_escalation: Optional[str] = None
     ai_analysis: dict = {}
     risk_matches: list[dict] = []
+
+    @field_validator("risk_matches", mode="before")
+    @classmethod
+    def _coerce_risk_matches(cls, value: Any) -> list[dict]:
+        """Serialize ``ArticleRiskMatch`` ORM objects (loaded via the relationship)
+        into plain dicts so validation works when populating from attributes."""
+        coerced: list[dict] = []
+        for item in value or []:
+            if isinstance(item, dict):
+                coerced.append(item)
+                continue
+            risk = getattr(item, "risk", None)
+            coerced.append(
+                {
+                    "id": str(getattr(item, "id", "")),
+                    "risk_id": str(getattr(item, "risk_id", "")),
+                    "risk_code": getattr(risk, "risk_id", None) if risk else None,
+                    "risk_name": getattr(risk, "name", None) if risk else None,
+                    "similarity_score": getattr(item, "similarity_score", None),
+                    "confidence": getattr(item, "confidence", None),
+                    "reasoning": getattr(item, "reasoning", None),
+                    "matched_concepts": getattr(item, "matched_concepts", []),
+                    "matched_controls": getattr(item, "matched_controls", []),
+                    "affected_kris": getattr(item, "affected_kris", []),
+                    "contributing_sentences": getattr(item, "contributing_sentences", []),
+                    "contributing_words": getattr(item, "contributing_words", []),
+                    "affected_departments": getattr(item, "affected_departments", []),
+                    "explanation": getattr(item, "explanation", {}),
+                }
+            )
+        return coerced
 
 
 class RiskOut(BaseModel):

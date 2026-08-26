@@ -91,27 +91,7 @@ def get_article(
     )
     if not article:
         raise HTTPException(status_code=404, detail="Article not found")
-    detail = ArticleDetail.model_validate(article)
-    detail.risk_matches = [
-        {
-            "id": str(m.id),
-            "risk_id": str(m.risk_id),
-            "risk_code": m.risk.risk_id if m.risk else None,
-            "risk_name": m.risk.name if m.risk else None,
-            "similarity_score": m.similarity_score,
-            "confidence": m.confidence,
-            "reasoning": m.reasoning,
-            "matched_concepts": m.matched_concepts,
-            "matched_controls": m.matched_controls,
-            "affected_kris": m.affected_kris,
-            "contributing_sentences": m.contributing_sentences,
-            "contributing_words": m.contributing_words,
-            "affected_departments": m.affected_departments,
-            "explanation": m.explanation,
-        }
-        for m in article.risk_matches
-    ]
-    return detail
+    return ArticleDetail.model_validate(article)
 
 
 @router.post("/{article_id}/reprocess")
