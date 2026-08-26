@@ -33,14 +33,14 @@ def match_article_to_risks(
             ],
         )
     )
-    if not article.embedding:
+    if article.embedding is None:
         article.embedding = embeddings.embed(text[:8000])
         db.commit()
 
     risks = db.query(Risk).filter(Risk.is_active.is_(True)).all()
     scored: list[tuple[Risk, float]] = []
     for risk in risks:
-        if not risk.embedding:
+        if risk.embedding is None:
             risk_text = f"{risk.name}. {risk.description or ''}. Category: {risk.category or ''}"
             risk.embedding = embeddings.embed(risk_text)
         score = embeddings.cosine(list(article.embedding), list(risk.embedding))
@@ -127,7 +127,7 @@ def match_article_to_risks(
 
 def detect_duplicates(db: Session, article: Article, threshold: float = 0.92) -> Optional[Article]:
     embeddings = get_embeddings()
-    if not article.embedding:
+    if article.embedding is None:
         text = f"{article.title_en or article.title} {article.content_en or ''}"
         article.embedding = embeddings.embed(text[:4000])
         db.commit()

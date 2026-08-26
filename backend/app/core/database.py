@@ -38,13 +38,19 @@ def get_db() -> Generator[Session, None, None]:
 
 
 def init_vector_extension(connection) -> None:
-    """Ensure pgvector is available when using PostgreSQL."""
+    """Ensure pgvector is available when using PostgreSQL.
+
+    Callers invoke this inside an ``engine.begin()`` block, so we must not
+    commit/rollback the outer transaction here. A SAVEPOINT isolates a
+    failed ``CREATE EXTENSION`` (e.g. insufficient privileges) without
+    poisoning the surrounding transaction that then creates the tables.
+    """
     if "postgresql" in settings.database_url:
         try:
-            connection.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
-            connection.commit()
+            with connection.begin_nested():
+                connection.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
         except Exception:
-            connection.rollback()
+            pass
 
 
 @event.listens_for(engine, "connect")
